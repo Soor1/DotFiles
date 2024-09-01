@@ -16,12 +16,15 @@ vim.opt.clipboard = 'unnamedplus'
 
 -- Setting Delete Keymaps
 vim.api.nvim_set_keymap('n', 'dfw', 'ggdG', { noremap = true, silent = true }) -- Delete Whole File 
-vim.api.nvim_set_keymap('n', 'dw', 'daw', { noremap = true, silent = true }) -- Delete Word No Matter Curson Pos
+vim.api.nvim_set_keymap('n', 'dw', 'daw', { noremap = true, silent = true }) -- Delete Word No Matter Cursor Pos
 
 -- Setting Copy Key
 vim.api.nvim_set_keymap('n', 'cc', 'yy', { noremap = true, silent = true }) -- Copy Line
 vim.api.nvim_set_keymap('n', 'cap', 'yap', { noremap = true, silent = true }) -- Copy Around Paragraph
-vim.api.nvim_set_keymap('n', 'cfw', 'ggVGy', { noremap = true, silent = true }) -- Copy Whole File
+vim.api.nvim_set_keymap('n', 'cwf', 'ggVGy', { noremap = true, silent = true }) -- Copy Whole File
+
+-- Setting Leader Keybinds
+vim.keymap.set('n', '<leader>sf', ':Ex<Cr>', { desc = 'Open File Explorer' })
 
 -- Yank Around Paragraph Highlight Function
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -32,7 +35,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Install lazy.nvim plugin manager
+-- Install The Lazy Package Manager
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.uv.fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -43,4 +46,18 @@ if not vim.uv.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- Install lazy.nvim Packages
+-- Set Theme
+require('lazy').setup({
+    {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}, {'morhetz/gruvbox'}, 
+
+})
+vim.cmd('colorscheme gruvbox')
+
+-- Tree sitter
+require'nvim-treesitter.configs'.setup {
+    highlight = {
+        enable = true, 
+        disable = {},
+    },
+}
+
